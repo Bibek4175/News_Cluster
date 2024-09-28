@@ -79,13 +79,13 @@ def process_data(json_file):
     df3 = load_data(json_file)
 
     # Convert published time to UNIX timestamp
-    df3['published_time'] = df3['published_time'].apply(convert_date)
+    df3['published_time_seconds'] = df3['published_time'].apply(convert_date)
 
-    min_timestamp = df3['published_time'].min()
-    max_timestamp = df3['published_time'].max()
+    min_timestamp = df3['published_time_seconds'].min()
+    max_timestamp = df3['published_time_seconds'].max()
 
     # Normalize date features
-    date_features= df3['published_time'].apply(lambda x: normalize_date_features(x, min_timestamp, max_timestamp))
+    date_features= df3['published_time_seconds'].apply(lambda x: normalize_date_features(x, min_timestamp, max_timestamp))
 
     cosine_matrix = cosine_sim_matrix(df3)
     adjusted_matrix = adjust_weight(date_features,cosine_matrix)
